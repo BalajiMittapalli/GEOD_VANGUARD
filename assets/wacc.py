@@ -53,7 +53,7 @@ def calculate_cost_of_debt(debt_percentage, tax_rate=0.30):
     return after_tax_kd
 
 
-def calculate_wacc(equity_value, debt_value, cost_of_equity, cost_of_debt):
+def calculate_wacc(equity_value, debt_value, cost_of_equity, cost_of_debt, tax_rate=0.30):
     """
     Calculate Weighted Average Cost of Capital (WACC)
     
@@ -65,7 +65,7 @@ def calculate_wacc(equity_value, debt_value, cost_of_equity, cost_of_debt):
     - D = Market value of debt
     - V = E + D (Total firm value)
     - Ke = Cost of equity
-    - Kd = Cost of debt
+    - Kd = Cost of debt (pre-tax)
     - Tc = Corporate tax rate
     
     Parameters:
@@ -76,7 +76,9 @@ def calculate_wacc(equity_value, debt_value, cost_of_equity, cost_of_debt):
     - cost_of_equity : float
         Cost of equity (as decimal, e.g., 0.10 for 10%)
     - cost_of_debt : float
-        After-tax cost of debt (as decimal)
+        Pre-tax cost of debt (as decimal)
+    - tax_rate : float, default 0.30
+        Corporate tax rate
     
     Returns:
     - float : WACC as a decimal
@@ -91,8 +93,8 @@ def calculate_wacc(equity_value, debt_value, cost_of_equity, cost_of_debt):
     weight_equity = equity_value / total_value
     weight_debt = debt_value / total_value
     
-    # WACC calculation
-    wacc = (weight_equity * cost_of_equity) + (weight_debt * cost_of_debt)
+    # WACC calculation with tax shield
+    wacc = (weight_equity * cost_of_equity) + (weight_debt * cost_of_debt * (1 - tax_rate))
     
     return wacc
 
